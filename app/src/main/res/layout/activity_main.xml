@@ -6,4 +6,79 @@
     android:layout_height="match_parent"
     tools:context="jissen.e.jissennohito.MainActivity">
 
+    <TextView
+        android:id="@+id/x_axis_text_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/x_axis"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/x_axis_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/x_axis_text_hint"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/y_axis_text_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/y_axis"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/x_axis_text_hint" />
+
+    <TextView
+        android:id="@+id/y_axis_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/x_axis_text"
+        app:layout_constraintLeft_toRightOf="@+id/y_axis_text_hint"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/z_axis_text_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/z_axis"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/y_axis_text_hint" />
+
+    <TextView
+        android:id="@+id/z_axis_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintLeft_toRightOf="@+id/z_axis_text_hint"
+        app:layout_constraintTop_toBottomOf="@+id/y_axis_text" />
+
+    <TextView
+        android:id="@+id/scalar_rotation_text_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scalar_rotation"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/z_axis_text_hint"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/scalar_rotation_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/scalar_rotation_text_hint"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="58dp" />
 </android.support.constraint.ConstraintLayout>
