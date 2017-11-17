@@ -60,12 +60,12 @@ public class MainActivity extends Activity {
 
                     TextView x_axis = (TextView) findViewById(R.id.x_axis_text),
                             y_axis = (TextView) findViewById(R.id.y_axis_text),
-                            z_axis = (TextView) findViewById(R.id.z_axis_text);
-//                            scalarRotation = (TextView)findViewById(R.id.scalar_rotation_text);
+                            z_axis = (TextView) findViewById(R.id.z_axis_text),
+                            zRotation = (TextView)findViewById(R.id.z_rotation_text);
                     z_axis.setText(String.valueOf(Math.toDegrees(rotationData.orientations[0])));
                     x_axis.setText(String.valueOf(Math.toDegrees(rotationData.orientations[1])));
                     y_axis.setText(String.valueOf(Math.toDegrees(rotationData.orientations[2])));
-//                    scalarRotation.setText(String.valueOf(event.values[3]));
+                    zRotation.setRotation(rotationData.orientations[2]);//TODO 回らない不具合解消
                 }
             }
 

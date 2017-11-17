@@ -10,48 +10,48 @@
         android:id="@+id/x_axis_text_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/x_axis"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/x_axis"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/x_axis_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@+id/x_axis_text_hint"
         android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/x_axis_text_hint"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/y_axis_text_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/y_axis"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="0dp"
+        android:text="@string/y_axis"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/x_axis_text_hint" />
 
     <TextView
         android:id="@+id/y_axis_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/x_axis_text"
         app:layout_constraintLeft_toRightOf="@+id/y_axis_text_hint"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/x_axis_text" />
 
     <TextView
         android:id="@+id/z_axis_text_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/z_axis"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="0dp"
+        android:text="@string/z_axis"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/y_axis_text_hint" />
 
     <TextView
@@ -64,21 +64,17 @@
         app:layout_constraintTop_toBottomOf="@+id/y_axis_text" />
 
     <TextView
-        android:id="@+id/scalar_rotation_text_hint"
+        android:id="@+id/z_rotation_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/scalar_rotation"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/z_axis_text_hint"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/scalar_rotation_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@+id/scalar_rotation_text_hint"
-        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="58dp" />
+        android:text="@string/z_rotation" />
+
 </android.support.constraint.ConstraintLayout>
