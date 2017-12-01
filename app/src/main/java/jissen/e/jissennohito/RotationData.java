@@ -1,13 +1,16 @@
 package jissen.e.jissennohito;
 
+import com.google.gson.annotations.Expose;
+
 /**
- * Model class(singleton)
+ * Model class
  */
 
-enum RotationData {
-    INSTANCE;
+class RotationData {
 
-    public float[] orientations;
+    @Expose public float[] orientations;
+    @Expose(serialize = false, deserialize = false) private float[] acceleration;
+    @Expose(serialize = false, deserialize = false) private float[] geomagnetic;
 
     public float[] getAcceleration() {
         return acceleration;
@@ -25,11 +28,13 @@ enum RotationData {
         this.geomagnetic = geomagnetic;
     }
 
-    private float[] acceleration;
-    private float[] geomagnetic;
 
-    public static RotationData getInstance() {
-        return INSTANCE;
+    public float[] getOrientations() {
+        return orientations;
+    }
+
+    public void setOrientations(float[] orientations) {
+        this.orientations = orientations;
     }
 
     RotationData() {
