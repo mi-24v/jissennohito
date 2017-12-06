@@ -11,6 +11,7 @@ class RotationData {
     @Expose public float[] orientations;
     @Expose(serialize = false, deserialize = false) private float[] acceleration;
     @Expose(serialize = false, deserialize = false) private float[] geomagnetic;
+    @Expose private float rotation;
 
     public float[] getAcceleration() {
         return acceleration;
@@ -41,4 +42,11 @@ class RotationData {
         this.orientations = new float[3];
     }
 
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
 }

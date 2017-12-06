@@ -65,6 +65,7 @@ public class MainActivity extends Activity {
                             (float) Math.toDegrees(rotationData.orientations[0]),
                             (float) Math.toDegrees(rotationData.orientations[1]),
                             (float) Math.toDegrees(rotationData.orientations[2])};
+                    rotationData.setRotation(rotationData.orientations[0]);
 
                     TextView x_axis = (TextView) findViewById(R.id.x_axis_text),
                             y_axis = (TextView) findViewById(R.id.y_axis_text),
