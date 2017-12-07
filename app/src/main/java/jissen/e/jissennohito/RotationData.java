@@ -12,6 +12,7 @@ class RotationData {
     @Expose(serialize = false, deserialize = false) private float[] acceleration;
     @Expose(serialize = false, deserialize = false) private float[] geomagnetic;
     @Expose private float rotation;
+    private float offset;
 
     public float[] getAcceleration() {
         return acceleration;
@@ -39,6 +40,7 @@ class RotationData {
     }
 
     RotationData() {
+        this.offset = 0;
         this.orientations = new float[3];
     }
 
@@ -46,7 +48,16 @@ class RotationData {
         return rotation;
     }
 
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
+    public void setRotation(float rotation){
+        if(this.rotation < 0){
+            this.rotation = rotation + 360;
+        }else{
+            this.rotation = rotation;
+        }
+    }
+
+    public void setRotationWithOffset(float rotation) {
+        offset = this.rotation;
+        this.rotation = rotation - offset;
     }
 }

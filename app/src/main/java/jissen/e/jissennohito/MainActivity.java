@@ -8,7 +8,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+
+import com.beardedhen.androidbootstrap.BootstrapButton;
+
+import org.w3c.dom.Text;
 
 import java.util.Arrays;
 
@@ -37,6 +42,14 @@ public class MainActivity extends Activity {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        ((BootstrapButton)findViewById(R.id.set_base_point_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotationData.setRotationWithOffset(rotationData.getRotation());
+            }
+        });
+
         mSensorListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -70,11 +83,13 @@ public class MainActivity extends Activity {
                     TextView x_axis = (TextView) findViewById(R.id.x_axis_text),
                             y_axis = (TextView) findViewById(R.id.y_axis_text),
                             z_axis = (TextView) findViewById(R.id.z_axis_text),
-                            zRotation = (TextView) findViewById(R.id.z_rotation_text);
+                            zRotation = (TextView) findViewById(R.id.z_rotation_text),
+                            oRotation = (TextView) findViewById(R.id.rotation_text);
                     z_axis.setText(String.valueOf(rotationData.orientations[0]));
                     x_axis.setText(String.valueOf(rotationData.orientations[1]));
                     y_axis.setText(String.valueOf(rotationData.orientations[2]));
-                    zRotation.setRotation(rotationData.orientations[0]);
+                    zRotation.setRotation(rotationData.getRotation());
+                    oRotation.setText(String.valueOf(rotationData.getRotation()));
                     callSendDataApi(rotationData);
                 }
             }
