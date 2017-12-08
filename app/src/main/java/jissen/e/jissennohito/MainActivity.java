@@ -13,10 +13,6 @@ import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
-import org.w3c.dom.Text;
-
-import java.util.Arrays;
-
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -43,7 +39,7 @@ public class MainActivity extends Activity {
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        ((BootstrapButton)findViewById(R.id.set_base_point_button)).setOnClickListener(new View.OnClickListener() {
+        ((BootstrapButton) findViewById(R.id.set_base_point_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 rotationData.setRotationWithOffset(rotationData.getRotation());
@@ -98,10 +94,6 @@ public class MainActivity extends Activity {
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
             }
         };
-
-//        mUsbManager = (UsbManager)getSystemService(Context.USB_SERVICE);
-//        HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
-//        Collection<UsbDevice> doge = deviceList.values();TODO for debug
     }
 
     @Override
@@ -136,7 +128,7 @@ public class MainActivity extends Activity {
 
                                @Override
                                public void onError(@NonNull Throwable throwable) {
-                                   Log.i(MainActivity.class.getName(), "FAILED: " + Arrays.toString(throwable.getStackTrace()));
+                                   Log.i(MainActivity.class.getName(), "FAILED: " + throwable.getMessage());
                                }
 
                                @Override
@@ -145,27 +137,5 @@ public class MainActivity extends Activity {
                            }
                 );
     }
-
-    //TODO けすかも
-//    private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            if (ACTION_USB_PERMISSION.equals(intent.getAction())) {
-//                synchronized (this) {
-//                    usbDevice = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-//                    if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
-//                        if (usbDevice != null) {
-//                            //TODO start communication
-//                        }
-//                    }
-//                }
-//            }
-//            if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(intent.getAction())) {
-//                if (usbDevice != null) {
-//                    //TODO close communication
-//                }
-//            }
-//        }
-//    };
 
 }
