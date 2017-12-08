@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from bottle import route, run, template
+from bottle import route, run, template, request
+import tempfile
+import os
+
+output = open("/tmp/output.ikisugi", 'w')
 
 # 文字列から数値（float）への変換
 def is_float_expression(s):
@@ -19,10 +23,17 @@ def index(name):
 def postRotation():
 	data = request.json["rotationData"]["rotation"]
 	if is_float_expression(data):
-		print(data)
+		output.write(str(data)+"\n")
+		output.flush()
 		return "success"
 	else:
 		return "failed"
 
-run(host='192.168.81.1', port=4545)
+try:
+	run(host='192.168.81.1', port=4545)
+except KeyboardInterrupt:
+	output.close()
+	tempfile.TemporaryDirectroy().cleanup()
+	if os.path.exists("/tmp/output.ikisugi"):
+		os.remove("/tmp/output.ikisugi")
 
