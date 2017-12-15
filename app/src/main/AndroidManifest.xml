@@ -2,7 +2,7 @@
 
     package="jissen.e.jissennohito">
 
-    <uses-feature android:name="android.hardware.usb.host" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"

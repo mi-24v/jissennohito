@@ -4,4 +4,6 @@
     <string name="y_axis">Y Axis</string>
     <string name="z_axis">Z Axis</string>
     <string name="z_rotation">方位</string>
+    <string name="rotation_text">出力角度</string>
+    <string name="set_base_rotation_str">基準角度セット</string>
 </resources>

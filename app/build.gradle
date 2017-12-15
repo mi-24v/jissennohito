@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+def retrofit_version = '2.3.0'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -19,6 +19,10 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -26,5 +30,20 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2+'
+
+    compile "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    // CallAdapter for RxJava
+    compile "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
+    // GSON converter
+    compile "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    // Explicitly install RxJava
+    compile "io.reactivex.rxjava2:rxjava:2.1.1"
+    // bootstrap
+    compile 'com.beardedhen:androidbootstrap:2.3.2'
+    // for Android
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.github.k-kagurazaka.rx-property-android:rx-property:3.0.0'
+
     testCompile 'junit:junit:4.12'
 }

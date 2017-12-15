@@ -1,30 +1,34 @@
 package jissen.e.jissennohito;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+
+import com.beardedhen.androidbootstrap.BootstrapButton;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends Activity {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer, mMagneticField;
     private SensorEventListener mSensorListener;
 
-    private UsbDevice usbDevice;
-    //    private UsbManager mUsbManager;
-    private static final String ACTION_USB_PERMISSION = "jissen.e.jissennohito.USB_PERMISSION";
+    private ApiService service = ApiUtils.build().create(ApiService.class);
+
     /**
      * rotation data set
      */
-    private RotationData rotationData = RotationData.INSTANCE;
+    private RotationData rotationData = new RotationData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,14 @@ public class MainActivity extends Activity {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        ((BootstrapButton) findViewById(R.id.set_base_point_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotationData.setRotationWithOffset(rotationData.getRotation());
+            }
+        });
+
         mSensorListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -57,15 +69,24 @@ public class MainActivity extends Activity {
                             SensorManager.AXIS_Y,
                             remappedRotationMatrix);
                     SensorManager.getOrientation(remappedRotationMatrix, rotationData.orientations);
+                    //convert into degree
+                    rotationData.orientations = new float[]{
+                            (float) Math.toDegrees(rotationData.orientations[0]),
+                            (float) Math.toDegrees(rotationData.orientations[1]),
+                            (float) Math.toDegrees(rotationData.orientations[2])};
+                    rotationData.setRotation(rotationData.orientations[0]);
 
                     TextView x_axis = (TextView) findViewById(R.id.x_axis_text),
                             y_axis = (TextView) findViewById(R.id.y_axis_text),
                             z_axis = (TextView) findViewById(R.id.z_axis_text),
-                            zRotation = (TextView)findViewById(R.id.z_rotation_text);
-                    z_axis.setText(String.valueOf(Math.toDegrees(rotationData.orientations[0])));
-                    x_axis.setText(String.valueOf(Math.toDegrees(rotationData.orientations[1])));
-                    y_axis.setText(String.valueOf(Math.toDegrees(rotationData.orientations[2])));
-                    zRotation.setRotation(rotationData.orientations[2]);//TODO 回らない不具合解消
+                            zRotation = (TextView) findViewById(R.id.z_rotation_text),
+                            oRotation = (TextView) findViewById(R.id.rotation_text);
+                    z_axis.setText(String.valueOf(rotationData.orientations[0]));
+                    x_axis.setText(String.valueOf(rotationData.orientations[1]));
+                    y_axis.setText(String.valueOf(rotationData.orientations[2]));
+                    zRotation.setRotation(rotationData.getRotation());
+                    oRotation.setText(String.valueOf(rotationData.getRotation()));
+                    callSendDataApi(rotationData);
                 }
             }
 
@@ -73,10 +94,6 @@ public class MainActivity extends Activity {
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
             }
         };
-
-//        mUsbManager = (UsbManager)getSystemService(Context.USB_SERVICE);
-//        HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
-//        Collection<UsbDevice> doge = deviceList.values();TODO for debug
     }
 
     @Override
@@ -92,25 +109,33 @@ public class MainActivity extends Activity {
         mSensorManager.unregisterListener(mSensorListener);
     }
 
-    private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (ACTION_USB_PERMISSION.equals(intent.getAction())) {
-                synchronized (this) {
-                    usbDevice = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-                    if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
-                        if (usbDevice != null) {
-                            //TODO start communication
-                        }
-                    }
-                }
-            }
-            if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(intent.getAction())) {
-                if (usbDevice != null) {
-                    //TODO close communication
-                }
-            }
-        }
-    };
+    private void callSendDataApi(RotationData rData) {
+        RequestRotationData requestRotationData = new RequestRotationData();
+        requestRotationData.setRotationData(rData);
+
+        service.postRotationData(requestRotationData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.trampoline())
+                .subscribe(new Observer<Void>() {
+                               @Override
+                               public void onSubscribe(@NonNull Disposable disposable) {
+                               }
+
+                               @Override
+                               public void onNext(@NonNull Void aVoid) {
+                                   Log.i(MainActivity.class.getName(), "SUCCESS");
+                               }
+
+                               @Override
+                               public void onError(@NonNull Throwable throwable) {
+                                   Log.i(MainActivity.class.getName(), "FAILED: " + throwable.getMessage());
+                               }
+
+                               @Override
+                               public void onComplete() {
+                               }
+                           }
+                );
+    }
 
 }
