@@ -1,48 +1,64 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
+#include <err.h>
 
 #define MAX_SIZE 256
 
-struct LogPosition { int pos, len; };
-typedef struct LogPosition LogPosition;
-
-char* getLogMessage(const char* filename, int maxLine)
-{
-    LogPosition* lp = (LogPosition*)calloc(maxLine,sizeof(LogPosition));
-    FILE* fp = fopen(filename,"r"); if ( fp == NULL ) return NULL;
-    int linei = 0, lineno = 0, retline = 0;
-    char buffer[MAX_SIZE];
-    while ( fgets(buffer,MAX_SIZE,fp) != NULL ) lineno ++;
-    rewind(fp);
-    long logLength = 0;
-    while ( fgets(buffer,MAX_SIZE,fp) != NULL ) {
-        if ( (lineno-linei-1) < maxLine ) {
-            int buflen = strlen(buffer);
-            lp[lineno-linei-1].pos = ftell(fp) - buflen; lp[lineno-linei-1].len = buflen;
-            logLength += buflen;
-            retline ++;
-        }
-        linei ++;
-    }
-    rewind(fp);
-    char* message = (char*)calloc(logLength + 1,sizeof(char));
-    logLength = 0;
-    for ( int i=0; i<retline; i++ ) {
-        fseek(fp,lp[i].pos,SEEK_SET); fread(message + logLength,1,lp[i].len,fp); logLength += lp[i].len;
-    }
-    fclose(fp);
-    free(lp);
-    return message;
+regex_t* compileregex(char* pattern){
+	/* Compile regular expression */
+	regex_t regex;
+	if(regcomp(&regex, pattern, REG_EXTENDED)) {
+		fprintf(stderr, "Could not compile regex\n");
+		exit(1);
+	}
+	return &regex;
 }
 
-float getRotation(){
-	char* str = getLogMessage("/tmp/output.ikisugi", 1);
+unsigned char tryregmatch(regex_t* regex, char* str){
+	int reti;
+	char msgbuf[100];
+
+
+	/* Execute regular expression */
+	reti = regexec(regex, str, 0, NULL, 0);
+	if (!reti) {
+		    //puts("Match");
+		    return 0;
+	}
+	else if (reti == REG_NOMATCH) {
+		    //puts("No match");
+		    return 1;
+	}
+	else {
+		    regerror(reti, &regex, msgbuf, sizeof(msgbuf));
+		    fprintf(stderr, "Regex match failed: %s\n", msgbuf);
+		    //exit(1);
+		    return 1;
+	}
+}
+
+float getRotation(FILE *process, regex_t* regex){
+	char* str;
+	char buf[MAX_SIZE];
+	unsigned char ismatch = 1;
+	//値を抽出
+	while(ismatch != 0){
+		str = fgets(buf, MAX_SIZE, process);
+		ismatch = tryregmatch(str);
+	}
 	return atof(str);
 }
 
 int main(int argc, char* argv[])
 {
-    printf("%f\n",getRotation());
+	FILE* process;
+	regex_t* regex = compileregex("\d{2-3}.\d{6}");
+	if( (process=popen("./host.py",r)) == NULL){
+		perror("could not execute host program");
+		exit(1);
+	}
+    printf("%f\n",getRotation(&process, regex));
     return 0;
 }
