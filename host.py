@@ -25,12 +25,13 @@ def postRotation():
 	if is_float_expression(data):
 		#output.write(str(data)+"\n")
 		#output.flush()
-                print(data)
+		print(data)
 		return "success"
 	else:
 		return "failed"
 
 run(host='192.168.81.1', port=4545)
+#run(host='192.168.43.54', port=4545)
 
 #try:
 #	run(host='192.168.81.1', port=4545)

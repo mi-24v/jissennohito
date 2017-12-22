@@ -12,7 +12,7 @@ public class ApiUtils {
 
     public static Retrofit build(){
         return new Retrofit.Builder()
-                .baseUrl(/*"http://miwpayou0808.info:4545/"*/"http://192.168.81.1:4545/")
+                .baseUrl(/*"http://192.168.43.54:4545/"*/"http://192.168.81.1:4545/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
