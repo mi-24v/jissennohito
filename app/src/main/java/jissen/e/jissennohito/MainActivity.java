@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
-import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -29,6 +27,7 @@ public class MainActivity extends Activity {
      * rotation data set
      */
     private RotationData rotationData = new RotationData();
+    private Disposable subscriber = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +98,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(mSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(mSensorListener, mMagneticField, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(mSensorListener, mMagneticField, SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
@@ -109,32 +108,22 @@ public class MainActivity extends Activity {
         mSensorManager.unregisterListener(mSensorListener);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        subscriber.dispose();
+    }
+
     private void callSendDataApi(RotationData rData) {
         RequestRotationData requestRotationData = new RequestRotationData();
         requestRotationData.setRotationData(rData);
 
-        service.postRotationData(requestRotationData)
+        subscriber = service.postRotationData(requestRotationData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.trampoline())
-                .subscribe(new Observer<Void>() {
-                               @Override
-                               public void onSubscribe(@NonNull Disposable disposable) {
-                               }
-
-                               @Override
-                               public void onNext(@NonNull Void aVoid) {
-                                   Log.i(MainActivity.class.getName(), "SUCCESS");
-                               }
-
-                               @Override
-                               public void onError(@NonNull Throwable throwable) {
-                                   Log.i(MainActivity.class.getName(), "FAILED: " + throwable.getMessage());
-                               }
-
-                               @Override
-                               public void onComplete() {
-                               }
-                           }
+                .subscribe((Void) -> Log.i(
+                        MainActivity.class.getName(), "SUCCESS"),
+                        throwable -> Log.i(MainActivity.class.getName(), "FAILED: " + throwable.getMessage())
                 );
     }
 
