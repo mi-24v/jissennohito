@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from bottle import route, run, template, request
+import concurrent.futures
 #import tempfile
 #import os
 
 #output = open("/tmp/output.ikisugi", 'w')
+mRotation = 0.0
 
 # 文字列から数値（float）への変換
 def is_float_expression(s):
@@ -25,19 +27,28 @@ def postRotation():
 	if is_float_expression(data):
 		#output.write(str(data)+"\n")
 		#output.flush()
-		print(data)
+		#print(data)
+		mRotation = float(data)
 		return "success"
 	else:
 		return "failed"
 
-run(host='192.168.81.1', port=4545)
-#run(host='192.168.43.54', port=4545)
+#TODO メイン制御部実装
+def robotmain:
+	print("doge")
 
-#try:
-#	run(host='192.168.81.1', port=4545)
-#except KeyboardInterrupt:
-#	output.close()
-#	tempfile.TemporaryDirectroy().cleanup()
-#	if os.path.exists("/tmp/output.ikisugi"):
-#		os.remove("/tmp/output.ikisugi")
+if __name__ == "__main__":
+	with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+		executor.submit(robotmain)
+	run(host='192.168.81.1', port=4545)
+	#run(host='127.0.0.1', port=4545, quiet=True)
+	#run(host='192.168.43.54', port=4545)
+	
+	#try:
+	#	run(host='192.168.81.1', port=4545)
+	#except KeyboardInterrupt:
+	#	output.close()
+	#	tempfile.TemporaryDirectroy().cleanup()
+	#	if os.path.exists("/tmp/output.ikisugi"):
+	#		os.remove("/tmp/output.ikisugi")
 
