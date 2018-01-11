@@ -13,9 +13,13 @@ int initProcess(){
 }
 
 float getRotation(){
-	float data;
+	float data = 0;
+	char *buf;
 	//値を抽出
-	while(fscanf(process, "%f\n", &data) != 0){}
+	while(data != 0){
+		fgets(buf, 20, process);
+		data = atof(buf);
+	}
 	return data;
 }
 
