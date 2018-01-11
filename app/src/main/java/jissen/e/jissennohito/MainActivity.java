@@ -119,7 +119,7 @@ public class MainActivity extends Activity {
         requestRotationData.setRotationData(rData);
 
         subscriber = service.postRotationData(requestRotationData)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.trampoline())
                 .observeOn(Schedulers.trampoline())
                 .subscribe((Void) -> Log.i(
                         MainActivity.class.getName(), "SUCCESS"),
