@@ -30,7 +30,8 @@ def postRotation():
 	else:
 		return "failed"
 
-run(host='192.168.81.1', port=4545)
+run(host='127.0.0.1', port=4545, quiet=True)
+run(host='192.168.81.1', port=4545, quiet=True)
 #run(host='192.168.43.54', port=4545)
 
 #try:
