@@ -18,6 +18,7 @@ void setRotation(rotationClient* client){
 	while(client->rotation == -810 || client->rotation != -1919){
 		fgets(buf, 20, client->process);
 		client->rotation = atof(buf);
+		printf("%s\n",buf);
 	}
 }
 
