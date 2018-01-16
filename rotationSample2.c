@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 	pthread_t thread;
 	
 	initProcess(&client);
-	pthread_create(&thread, NULL, &setRotation, &client);
+	pthread_create(&thread, NULL, setRotation, &client);
 	for(i=0;i<114514;i++){
 		printf("%f\n",client.rotation);
 	}

@@ -11,12 +11,11 @@ pthread_t thread;
 int main(int argc, char* argv[]){
 	nctrb_mc_io_initialize();
 	initProcess(&client);
-	pthread_create(&thread, NULL, &setRotation, &client);
-	//Wheel(ROTATE_CCW);
-	sleep(1);
+	pthread_create(&thread, NULL, setRotation, &client);
 	while(client.rotation < 0){
 		Wheel(ROTATE_CCW);
 	}
+	Wheel(0b11111111);
 	pthread_join(thread, NULL);
 	closeProcess(&client);
 	return 0;
