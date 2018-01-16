@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "rotation.h"
 
-FILE* process;
-
-int initProcess(){
-	if( (process=popen("./host.py","r")) == NULL){
+int initProcess(rotationClient* client){
+	if( (client->process=popen("./host.py","r")) == NULL){
 		perror("could not execute host program");
 		return -1;
 	}else{
@@ -12,17 +11,16 @@ int initProcess(){
 	}
 }
 
-float getRotation(){
-	float data = 0;
+void setRotation(rotationClient* client){
+	client->rotation = -810;
 	char *buf;
 	//値を抽出
-	while(data != 0){
-		fgets(buf, 20, process);
-		data = atof(buf);
+	while(client->rotation == -810 || client->rotation != -1919){
+		fgets(buf, 20, client->process);
+		client->rotation = atof(buf);
 	}
-	return data;
 }
 
-void closeProcess(){
-	pclose(process);
+void closeProcess(rotationClient* client){
+	pclose(client->process);
 }
