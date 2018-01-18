@@ -12,18 +12,23 @@ int initProcess(rotationClient* client){
 }
 
 void setRotation(rotationClient* client){
-	char buf[256];
 	client->rotation = -810;
-	if(initProcess(client) != 0)exit(1);
+	char *buf;
 	//値を抽出
 	while(client->rotation == -810 || client->rotation != -1919){
 		fgets(buf, 20, client->process);
 		client->rotation = atof(buf);
-		printf("%s\n",buf);
+		fprintf(stderr, "%s\n",buf);
 	}
-	closeProcess(client);
 }
 
 void closeProcess(rotationClient* client){
 	pclose(client->process);
+}
+
+int main(int argc, char* argv){
+	rotationClient client;
+	initProcess(&client);
+	setRotation(&client);
+	closeProcess(&client);
 }
