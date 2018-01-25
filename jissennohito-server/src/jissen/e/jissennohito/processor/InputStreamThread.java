@@ -48,8 +48,9 @@ public class InputStreamThread extends Thread {
 
 				if (line == null) 	break;
 
-				list.add(line);
-
+				synchronized (this) {
+					list.add(line);
+				}
 			}
 
 		} catch (IOException e) {
