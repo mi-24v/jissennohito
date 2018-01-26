@@ -13,14 +13,13 @@ public class InputStreamThread extends Thread {
 	private BufferedReader br;
 
 	private List<String> list = new ArrayList<String>();
-
+	private ThreadLocal<String> headData = new ThreadLocal<>();
 
 
 	/** コンストラクター */
 
 	public InputStreamThread(InputStream is) {
 		br = new BufferedReader(new InputStreamReader(is));
-
 	}
 
 	/** コンストラクター */
@@ -51,6 +50,7 @@ public class InputStreamThread extends Thread {
 				synchronized (this) {
 					list.add(line);
 				}
+				headData.set(line);
 			}
 
 		} catch (IOException e) {
@@ -73,11 +73,13 @@ public class InputStreamThread extends Thread {
 
 	}
 
-
-
 	/** 文字列取得 */
 	public List<String> getStringList() {
 		return list;
+	}
+
+	public String getDataString(){
+		return headData.get();
 	}
 
 }

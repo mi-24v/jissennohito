@@ -8,6 +8,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 public class ServerListener {
 	public static final double NOT_NUMBER = -810;
 
+//	private static final String[] CMD_WINDOWS = {"cmd","/c", "e:\\cygwin\\bin\\python3.6m.exe", "host.py"};
 	private static final String[] CMD_WINDOWS = {"cmd","/c", "C:\\Python34\\python.exe", "host.py"};
 	private static final String[] CMD_LINUX = {"python3","host.py"};
 
@@ -45,12 +46,13 @@ public class ServerListener {
 	}
 
 	private static double getRotation(InputStreamThread in){
-		synchronized (in) {
-			return in.getStringList().stream()
-					.mapToDouble(s -> NumberUtils.isCreatable(s) ? NumberUtils.createDouble(s) : NOT_NUMBER)
-					.reduce((first, second) -> second).orElse(NOT_NUMBER);
-		}
-
+//		synchronized (in) {
+//			return in.getStringList().stream()
+//					.mapToDouble(s -> NumberUtils.isCreatable(s) ? NumberUtils.createDouble(s) : NOT_NUMBER)
+//					.reduce((first, second) -> second).orElse(NOT_NUMBER);
+//		}
+		String str = in.getDataString();
+		return NumberUtils.isCreatable(str)? NumberUtils.createDouble(str) : NOT_NUMBER;
 	}
 
 }
