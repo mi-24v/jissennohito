@@ -1,7 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
 from bottle import route, run, template, request
+from pwn import *
 #import tempfile
 #import os
 
@@ -22,16 +23,22 @@ def index(name):
 @route('/rotation', method='POST')
 def postRotation():
 	data = request.json["rotationData"]["rotation"]
+	print main_process.recvuntil("rotation:")
 	if is_float_expression(data):
 		#output.write(str(data)+"\n")
 		#output.flush()
-		print(data)
+		#print data
+		main_process.sendline(data)
 		return "success"
 	else:
+		main_process.sendline("-810")
 		return "failed"
+
+main_process = process("./test")
 
 run(host='127.0.0.1', port=4545, quiet=True)
 run(host='192.168.81.1', port=4545, quiet=True)
+main_process.interactive()
 #run(host='192.168.43.54', port=4545)
 
 #try:
