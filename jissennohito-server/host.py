@@ -23,16 +23,18 @@ def index(name):
 @route('/rotation', method='POST')
 def postRotation():
 	data = request.json["rotationData"]["rotation"]
-	print main_process.recvuntil("rotation:")
+        response = ""
 	if is_float_expression(data):
 		#output.write(str(data)+"\n")
 		#output.flush()
 		#print data
-		main_process.sendline(data)
-		return "success"
+		main_process.sendline(str(data))
+		response = "success"
 	else:
 		main_process.sendline("-810")
-		return "failed"
+		response = "failed"
+        print main_process.recvuntil('ok')
+        return response
 
 main_process = process("./test")
 

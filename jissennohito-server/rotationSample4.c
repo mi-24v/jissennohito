@@ -9,7 +9,8 @@ int main(int argc, char* argv[]){
 	while(rotation < 0){
 		Wheel(ROTATE_CCW);
 		printf("rotation:");
-		scanf("%f\n", &rotation);
+		scanf("%f", &rotation);
+        printf("ok");
 	}
 	Wheel(0b11111111);
 	return 0;
