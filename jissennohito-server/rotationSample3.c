@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include "nctrb_mechctrl_io.h"
-#include "rotation.h"
+#include "rotation2.h"
 
 #define ROTATE_CCW 0b01010101
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <wiringPi.h>
+#include "rotation.h"
 
 #define LED1 21
 
@@ -21,9 +22,7 @@ int main(int argc, char* argv[]){
     pinMode(LED1, OUTPUT);
 	while(rotation < 180){
 		blink(LED1);
-		printf("rotation:");
-		scanf("%f", &rotation);
-        printf("ok\n");
+        rotation = getRotation();
 	}
 	return 0;
 }

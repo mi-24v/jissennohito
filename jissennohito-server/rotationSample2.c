@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <pthread.h>
-#include "rotation.h"
+#include "rotation2.h"
 
 int main(int argc, char* argv[])
 {
