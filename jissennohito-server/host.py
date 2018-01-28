@@ -24,21 +24,26 @@ def index(name):
 def postRotation():
 	data = request.json["rotationData"]["rotation"]
         response = ""
+        payload = ""
 	if is_float_expression(data):
 		#output.write(str(data)+"\n")
 		#output.flush()
 		#print data
-		main_process.sendline(str(data))
+		payload = str(data)
 		response = "success"
 	else:
-		main_process.sendline("-810")
+		payload = "-810"
 		response = "failed"
-        print main_process.recvuntil('ok')
+        try:
+            main_process.sendline(payload)
+            print main_process.recvuntil('ok')
+        except EOFError:
+            pass
         return response
 
 main_process = process("./test")
 
-run(host='127.0.0.1', port=4545, quiet=True)
+#run(host='127.0.0.1', port=4545, quiet=True)
 run(host='192.168.81.1', port=4545, quiet=True)
 main_process.interactive()
 #run(host='192.168.43.54', port=4545)
