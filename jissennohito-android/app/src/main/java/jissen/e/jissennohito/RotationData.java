@@ -49,15 +49,15 @@ class RotationData {
     }
 
     public void setRotation(float rotation){
-        if(this.rotation < 0){
-            this.rotation = rotation + 360;
+        if(rotation < 0){
+            this.rotation = rotation + 360 - this.offset;//FIXME 計算式あってる???
         }else{
-            this.rotation = rotation;
+            this.rotation = rotation - this.offset;//FIXME 同上
         }
     }
 
     public void setRotationWithOffset(float rotation) {
-        offset = this.rotation;
+        offset = rotation;
         this.rotation = rotation - offset;
     }
 }
